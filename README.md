@@ -6,7 +6,7 @@ This tool allows users to generate sample data for the ML model that detects key
 ### Tool Setup
 First, you'll need a copy of the tool locally. Either:
 - Clone the repo to your local machine.
-- Download the latest [release](http://www.google.com).
+- Download the latest [release](https://github.com/j-confusatron/tap_keyboard/releases).
 
 You'll also need a copy of Anaconda. Anaconda allows you to manage virtual Python environments. [Anaconda](https://www.anaconda.com/)
 
@@ -20,7 +20,7 @@ pip install -r requirements.txt
 ### Using the Tool
 This tool requires an available webcam. The current goal is to collect a very targeted dataset. This means the webcam will need to be in a specific position. Position your webcam above your desk, looking down on the area where your hand will be. If you have your webcam on your monitor, simply angling it down to look at the desk area in front of your monitor will work.
 
-![diagram depicting a webcam on top of a monitor, angled down to view a hand resting on a desk](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Webcam setup diagram")
+![diagram depicting a webcam on top of a monitor, angled down to view a hand resting on a desk](https://raw.githubusercontent.com/j-confusatron/tap_keyboard/main/cam_diagram.png "Webcam setup diagram")
 
 You can then launch the data collection tool. Open up a CLI and activate the virtual environment created earlier: `conda activate keyless_keyboard`
 
@@ -28,7 +28,7 @@ Then launch the tool: `python -m data_collector.collector`
 
 Wait a moment for the tool to start. Then the main tool window will appear.
 
-![Screenshot of the data collection tool. A hand is visible on a desk. Along the top, instructions are provided for a gesture to capture.](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Data Collection Tool")
+![Screenshot of the data collection tool. A hand is visible on a desk. Along the top, instructions are provided for a gesture to capture.](https://raw.githubusercontent.com/j-confusatron/tap_keyboard/main/data_collector_sample.png "Data Collection Tool")
 
 The goal of this project is to capture the motion of tapping fingers on a desk. The tool will cycle through all possible combinations of finger-taps and ask you to record yourself performing that tap.
 
