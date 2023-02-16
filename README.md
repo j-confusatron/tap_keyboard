@@ -35,7 +35,7 @@ Wait a moment for the tool to start. Then the main tool window will appear.
 
 The goal of this project is to capture the motion of tapping fingers on a desk. The tool will cycle through all possible combinations of finger-taps and ask you to record yourself performing that tap.
 
-At the top of the screen is a grey circle, followed by a series of X's and O's. The grey circle indicates that the tool is not currently recording. When the tool is recording, the circle turns red. The X's and O's indicate which fingers to tap. A red X indicates a finger should remain neutral. A green O indicates that finger should tap on the desk. From left to right, the X's and O's indicate: thumb, index, middle, ring, pinky. Multiple indicated fingers should tap simultaneously. If only red X's are displayed, leave your hand in a neutral position above your desk for about 1 second while recording.
+At the top of the screen is a grey circle, followed by a series of X's and O's. The grey circle indicates that the tool is not currently recording. When the tool is recording, the circle turns red. The X's and O's indicate which fingers to tap. A red X indicates a finger should remain neutral, hovering an inch or so above the desk. A green O indicates that finger should tap on the desk. From left to right, the X's and O's indicate: thumb, index, middle, ring, pinky. Multiple indicated fingers should tap simultaneously. If only red X's are displayed, leave your hand in a neutral position about 1 inch above your desk for about 1 second while recording.
 
 Only the right hand may be used to record motion.
 
