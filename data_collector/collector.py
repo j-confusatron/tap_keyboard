@@ -4,14 +4,14 @@ import json
 import os
 import time
 import itertools
-
-FPS = 30
+from keyless_keyboard.config import KeylessConfig
 
 # Startup the capture process.
 print("Starting data capture tool...")
+key_config = KeylessConfig()
 cap = cv2.VideoCapture(0)
 detector = HandDetector(detectionCon=0.9, maxHands=2)
-frame_time = int(round(1000/FPS, 0))
+frame_time = int(round(1000/key_config.fps, 0))
 
 # Generate the training scenarios.
 def product_dict():

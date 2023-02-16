@@ -1,4 +1,18 @@
 # Keyless Keyboard
+The Keyless Keyboard is an alternative to [chorded keyboards](https://en.wikipedia.org/wiki/Chorded_keyboard). Chorded keyboards can be expensive to purchase and require a specialized device to use. The Keyless Keyboard requires only a webcam to use. Webcams are ubiquitous and cheap. Many people already have one, either on their laptop or cell phone. By capturing images from a webcam, the Keyless Keyboard will recognize finger tapping gestures and translate them to key presses.
+
+Keyless Keyboard will use a method similar to chorded keyboards, where different finger tap combinations are translated to specific key presses. Each finger is assigned a point value.
+- Thumb: 1
+- Index: 2
+- Middle: 4
+- Ring: 8
+- Pinky: 16
+
+By summing the total of the fingers tapped, the letter to be entered is determined.
+
+The goal for this research project is to produce a key entry system that is accessible to blind and low vision users. This system may also benefit users with impaired mobility.
+
+As this is a research project with a limited timeline, the scope of this project is purpoosely reduced. The dataset used to train the system will be small and targeted to a specific viewing angle. A more robust, production-ready system would be capable of recognizing input from any viewing angle.
 
 ## Data Collection Tool
 The goal of this project is to interpret finger taps as keyboard entries. Different finger tap combinations will result in different keystrokes. The tool will cycle through all possible combinations of finger-taps and ask you to record yourself performing that tap. The data captured by this tool will be used to train machine learning models that can identify fingers tapping.
