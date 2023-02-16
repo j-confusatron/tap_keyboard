@@ -35,7 +35,7 @@ This tool requires an available webcam. The current goal is to collect a very ta
 ![diagram depicting a webcam on top of a monitor, angled down to view a hand resting on a desk](https://raw.githubusercontent.com/j-confusatron/tap_keyboard/main/cam_diagram.png "Webcam setup diagram")
 
 #### Launch the Data Collection Tool
-1. Open a CLI the project root.
+1. Open a CLI at the project root.
 2. Activate the keyless_keyboard virtual environment: `conda activate keyless_keyboard`
 3. Launch the tool: `python -m data_collector.collector`
 4. The tool will take a moment to start.
