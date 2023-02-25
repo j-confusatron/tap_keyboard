@@ -28,3 +28,23 @@ class KeylessConfig():
     @property
     def data_ratio(self):
         return tuple(self.config_data['data_ratio'])
+    
+    @property
+    def mean(self):
+        return tuple(self.config_data['mean'])
+    
+    @property
+    def stdev(self):
+        return tuple(self.config_data['stdev'])
+    
+    @property
+    def thresholds(self):
+        return tuple(self.config_data['thresholds'])
+    
+    @property
+    def train(self):
+        return self.config_data['train']
+    
+    @property
+    def evaluate(self):
+        return self.config_data['evaluate']

@@ -153,3 +153,5 @@ cython_debug/
 .vscode/launch.json
 tap_keyboard.code-workspace
 data_*.json
+metrics/curves.txt
+metrics/metrics.txt
