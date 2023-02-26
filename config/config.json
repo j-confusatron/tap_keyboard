@@ -26,5 +26,6 @@
         0.5
     ],
     "train": true,
-    "evaluate": true
+    "evaluate": true,
+    "scores": [1, 2, 4, 8, 16]
 }

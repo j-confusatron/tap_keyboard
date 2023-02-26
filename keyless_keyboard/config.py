@@ -48,3 +48,7 @@ class KeylessConfig():
     @property
     def evaluate(self):
         return self.config_data['evaluate']
+    
+    @property
+    def scores(self):
+        return self.config_data['scores']

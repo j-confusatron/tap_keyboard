@@ -27,6 +27,13 @@ As this is a research project with a limited timeline, the scope of this project
   pip install -r requirements.txt
   ```
 
+### Keyless Keyboard
+
+1. Open a CLI at the project root.
+2. Activate the keyless_keyboard virtual environment: `conda activate keyless_keyboard`
+3. Launch the tool: `python -m keyless_keyboard.keyless_keyboard`
+4. The tool will take a moment to start.
+
 ### Data Collection Tool
 The goal of this project is to interpret finger taps as keyboard entries. Different finger tap combinations will result in different keystrokes. The tool will cycle through all possible combinations of finger-taps and ask you to record yourself performing that tap. The data captured by this tool will be used to train machine learning models that can identify fingers tapping.
 
