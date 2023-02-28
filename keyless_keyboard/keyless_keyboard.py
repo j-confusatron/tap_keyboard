@@ -6,7 +6,6 @@ from cvzone.HandTrackingModule import HandDetector
 import cv2
 
 F_MODELS = 'models'
-KEYS = [None, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '.', ',', '?', '!', '\'']
 
 class KeylessKeyboard(object):
 
@@ -22,7 +21,7 @@ class KeylessKeyboard(object):
 
     def start(self):
         # Setup the capture process.
-        print("Starting tool...")
+        print("Starting Keyless Keyboard...")
         cap = cv2.VideoCapture(0)
         detector = HandDetector(detectionCon=0.9, maxHands=2)
         frame_time = int(round(1000/self.config.fps, 0))
@@ -34,12 +33,16 @@ class KeylessKeyboard(object):
         while run_cap:
             success, img = cap.read()
             hands, img = detector.findHands(img)
-            frames.append(self.__get_data(hands))
+            data_points = self.__get_data(hands)
+            if data_points:
+                frames.append(data_points)
+            else:
+                frames = []
 
-            if frames == num_frames:
+            if len(frames) == num_frames:
                 score = self.__score(flatten(frames))
                 if score:
-                    key = KEYS[score]
+                    key = self.config.keys[score]
                     print(key)
                     frames = []
                 else:
@@ -54,16 +57,16 @@ class KeylessKeyboard(object):
         cv2.destroyAllWindows()
 
     def __model_inference(self, x):
-        inference = [self.models[i].predict_proba(x)[:,1] > self.config.thresholds[i] for i in range(len(self.models))]
+        inference = [self.models[i].predict_proba([x])[0,1] > self.config.thresholds[i] for i in range(len(self.models))]
         return inference
     
     def __score(self, x):
         inference = self.__model_inference(x)
-        score = sum(inference * self.config.scores)
+        score = sum([inference[i] * self.config.scores[i] for i in range(len(self.models))])
         return score
     
     def __get_data(self, hands):
-        points = [0 for _ in range(3 * self.config.num_hand_points)]
+        points = None
         if hands:
             r_hand = hands[0] if hands[0]['type'] == 'Right' else hands[1] if len(hands) == 2 else None
             if r_hand:
