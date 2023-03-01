@@ -12,6 +12,7 @@ key_config = KeylessConfig()
 cap = cv2.VideoCapture(0)
 detector = HandDetector(detectionCon=0.9, maxHands=2)
 frame_time = int(round(1000/key_config.fps, 0))
+num_frames = int(round(key_config.fps * (key_config.capture_time / 1000), 0))
 
 # Generate the training scenarios.
 def product_dict():
@@ -30,16 +31,27 @@ cur_rec = {'y': scenarios[cur_n]['y'], 'x': []}
 
 # Capture images until told to quit.
 run_cap = True
-recording = False
+recording = 0
 while run_cap:
     # Get the next screen capture and detect hands.
     success, img = cap.read()
     hands, img = detector.findHands(img)
-    
     if hands:
         r_hand = hands[0] if hands[0]['type'] == 'Right' else hands[1] if len(hands) == 2 else None
         if r_hand and recording:
             cur_rec['x'].append({'pts': r_hand["lmList"], 'cent': r_hand['center'], 'box': r_hand['bbox']})
+
+    # If we're recording, decrement the recording counter.
+    # When the counter reaches 0, save the sample and advance to the next.
+    if recording:
+        recording -= 1
+        if not recording:
+            print(cur_rec)
+            history.append(cur_rec)
+            with open(f_data, 'w') as fp_data:
+                json.dump(history, fp_data)
+            cur_n = cur_n + 1 if cur_n < (len(scenarios)-1) else 0
+            cur_rec = {'y': scenarios[cur_n]['y'], 'x': []}
 
     # Display the screen.
     cv2.rectangle(img, (0,0), (270,60), (0,0,0), -1)
@@ -62,14 +74,8 @@ while run_cap:
     elif k == 32:
         if recording:
             recording = False
-            print(cur_rec)
-            history.append(cur_rec)
-            with open(f_data, 'w') as fp_data:
-                json.dump(history, fp_data)
-            cur_n = cur_n + 1 if cur_n < (len(scenarios)-1) else 0
-            cur_rec = {'y': scenarios[cur_n]['y'], 'x': []}
         else:
-            recording = True
+            recording = num_frames
 
     # backspace: delete the last entry and cycle back a letter.
     elif k == 8:

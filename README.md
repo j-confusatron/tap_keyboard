@@ -68,10 +68,10 @@ Only the **right hand** may be used to record motion.
 3. Prepare to tap the fingers designated by O's
 4. Press SPACE to start recording
 5. Tap the indicated fingers
-6. Press SPACE to stop recording
+6. Recording will end after 1 second
 7. The tool will write the sample to disk and cycle to the next sample.
 
-When you are ready to record, press the **SPACE** key to begin. Perform the tapping motion indicated. Then press **SPACE** again to stop recording. The data of your hand motion will be recorded and printed out on the CLI. The tool will then cycle to the next tap combination.
+When you are ready to record, press the **SPACE** key to begin. Perform the tapping motion indicated. The data of your hand motion will be recorded and printed out on the CLI. The tool will then cycle to the next tap combination.
 
 If you have made a mistake and wish to try again, press **BACKSPACE** to cycle back an entry. You may cycle back as many iterations as you wish. You may also press **BACKSPACE** while recording to cancel the recording.
 
@@ -79,7 +79,7 @@ When you are done collecting data, press **ESC** to exit the tool. You can then 
 
 | Key       | Purpose                                                                          |
 | --------- | -------------------------------------------------------------------------------- |
-| SPACE     | Start / Stop recording a sample                                                  |
+| SPACE     | Start / cancel recording a sample                                                  |
 | BACKSPACE | If app is recording, cancel current recording. Else, delete last recorded sample |
 | ESC       | Exit application                                                                 |
 

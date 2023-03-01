@@ -25,8 +25,10 @@ class KeylessKeyboard(object):
         cap = cv2.VideoCapture(0)
         detector = HandDetector(detectionCon=0.9, maxHands=2)
         frame_time = int(round(1000/self.config.fps, 0))
-        num_frames = self.config.fps * (self.config.capture_time / 1000)
+        num_frames = int(round(self.config.fps * (self.config.capture_time / 1000), 0))
         frames = []
+        last_key = ''
+        timer = 0
         run_cap = True
 
         # Capture data until told to stop.
@@ -41,16 +43,25 @@ class KeylessKeyboard(object):
 
             if len(frames) == num_frames:
                 score = self.__score(flatten(frames))
-                if score:
+                if score != 0:
+                    score = 0 if score < 0 else score
                     key = self.config.keys[score]
+                    last_key = key
+                    timer = num_frames // 2
                     print(key)
                     frames = []
                 else:
                     frames = frames[1:]
-
+            
+            cv2.rectangle(img, (0,0), (60,60), (15,15,15), -1)
+            cv2.putText(img, last_key, (10,50), cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)
             cv2.imshow("Hand Data Cap", img)
             k = cv2.waitKey(frame_time)
             if k == 27: run_cap = False
+            if timer > 0:
+                timer -= 1
+            else:
+                last_key = ''
 
         # Shutdown.
         cap.release()
