@@ -6,13 +6,7 @@ import time
 import itertools
 from keyless_keyboard.config import KeylessConfig
 
-# Startup the capture process.
 print("Starting data capture tool...")
-key_config = KeylessConfig()
-cap = cv2.VideoCapture(0)
-detector = HandDetector(detectionCon=0.9, maxHands=2)
-frame_time = int(round(1000/key_config.fps, 0))
-num_frames = int(round(key_config.fps * (key_config.capture_time / 1000), 0))
 
 # Generate the training scenarios.
 def product_dict():
@@ -22,6 +16,18 @@ def product_dict():
         y = [-1] if not y else y
         yield {'x': instance, 'y': y}
 scenarios = list(product_dict())
+neutral = {'x': (0, 0, 0, 0, 0), 'y': [-1]}
+positions = [6, 12, 18, 24, -1]
+for p in positions:
+    scenarios.insert(p, neutral)
+
+# Startup the capture process.
+key_config = KeylessConfig()
+cap = cv2.VideoCapture(0)
+detector = HandDetector(detectionCon=0.9, maxHands=2)
+frame_time = int(round(1000/key_config.fps, 0))
+num_frames = int(round(key_config.fps * (key_config.capture_time / 1000), 0))
+num_iterations = 1
 
 # Track all recorded data here.
 f_data = os.path.join('data', f'data_{time.time()}.json')
@@ -50,7 +56,15 @@ while run_cap:
             history.append(cur_rec)
             with open(f_data, 'w') as fp_data:
                 json.dump(history, fp_data)
-            cur_n = cur_n + 1 if cur_n < (len(scenarios)-1) else 0
+            if cur_n < (len(scenarios)-1):
+                cur_n += 1
+            else:
+                cur_n = 0
+                num_iterations -= 1
+                if not num_iterations:
+                    num_iterations = 1
+                    f_data = os.path.join('data', f'data_{time.time()}.json')
+                    history = []
             cur_rec = {'y': scenarios[cur_n]['y'], 'x': []}
 
     # Display the screen.
@@ -74,6 +88,7 @@ while run_cap:
     elif k == 32:
         if recording:
             recording = False
+            cur_rec = {'y': scenarios[cur_n]['y'], 'x': []}
         else:
             recording = num_frames
 
