@@ -1,4 +1,4 @@
-# Keyless Keyboard - A Virtuak Chorded Keyboard
+# Keyless Keyboard - A Virtual Chorded Keyboard
 
 ## Table of Contents
 1. [Keyless Keyboard](#keyless_keyboard)
@@ -91,6 +91,8 @@ Further work on Keyless Keyboard should explore three areas. First, a production
 ## App Accessibility <a id="accessibility"></a>
 
 Keyless Keyboard is not intended to be a stand-alone accessibility application. Rather, it is intended to be used as a tool to make applications accessible by providing accessible keyboard input. The current iteration is a stand-alone application that merely demonstrates the intelligent functionality of the tool. As an accessibility tool, Keyless Keyboard would likely take the form of a customizable virtual keyboard. For example, Android devices may install custom keyboards to be used in place of the standard, pre-installed Gboard. In such a scenario, Keyless Keyboard could be offered on the Google Play Store for free. Users would be free to download Keyless Keyboard and set it as their default keyboard or select it only when desired.
+
+The Keyless Keyboard test application requires no keyboard and mouse interaction once running. The application responds only to finger tapping movements and responds with the character keypress associated with detected motion. Users may tap any finger combinations and the application will notify the user of the detected motion and its corresponding keypress.
 
 ## References <a id="references"></a>
 
