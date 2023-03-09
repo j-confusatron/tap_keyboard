@@ -20,14 +20,20 @@ class KeylessKeyboard(object):
         self.models = [self.neutral, self.thumb, self.index, self.middle, self.ring, self.pinky]
 
     def start(self):
-        # Setup the capture process.
         print("Starting Keyless Keyboard...")
+
+        # Setup data trackers.
+        frames = [[] for _ in range(self.config.num_windows)]
+        frame_counter_mod = [i+1 for i in range(self.config.num_windows)]
+        agreement_history = [(None, 0) for _ in range(self.config.num_windows)]
+        frame_counter = 0
+        keypress = ''
+
+        # Setup the capture process.
         cap = cv2.VideoCapture(0)
         detector = HandDetector(detectionCon=0.9, maxHands=2)
         frame_time = int(round(1000/self.config.fps, 0))
         num_frames = int(round(self.config.fps * (self.config.capture_time / 1000), 0))
-        frames = []
-        last_key = ''
         timer = 0
         run_cap = True
 
@@ -36,32 +42,50 @@ class KeylessKeyboard(object):
             success, img = cap.read()
             hands, img = detector.findHands(img)
             data_points = self.__get_data(hands)
+            frame_counter += 1
             if data_points:
-                frames.append(data_points)
+                for i, f in enumerate(frames):
+                    if i % frame_counter_mod[i] == 0:
+                        f.append(data_points)
             else:
-                frames = []
+                frames = [[] for _ in range(self.config.num_windows)]
+                agreement_history = [(None, 0) for _ in range(self.config.num_windows)]
+                frame_counter = 0
 
-            if len(frames) == num_frames:
-                score = self.__score(flatten(frames))
-                if score != 0:
-                    score = 0 if score < 0 else score
-                    key = self.config.keys[score]
-                    last_key = key
-                    timer = num_frames // 2
-                    print(key)
-                    frames = []
-                else:
-                    frames = frames[1:]
+            for i, f in enumerate(frames):
+                if len(f) == num_frames:
+                    score = self.__score(flatten(f))
+                    if score != 0:
+                        # Detect a key press and store it in the agreement history.
+                        score = 0 if score < 0 else score
+                        key = self.config.keys[score]
+                        last_key = agreement_history[i]
+                        if last_key[0] == key:
+                            last_key[1] += 1
+                        else:
+                            last_key = (key, 1)
+                        
+                        # Register the key press if he agreement threshold is met.
+                        if last_key[1] == self.config.agreements:
+                            keypress = key
+                            timer = num_frames // 2
+                            print(key)
+                            frames = [[] for _ in range(self.config.num_windows)]
+                            agreement_history = [(None, 0) for _ in range(self.config.num_windows)]
+                            frame_counter = 0
+                            break
+                    else:
+                        f = f[1:]
             
             cv2.rectangle(img, (0,0), (60,60), (15,15,15), -1)
-            cv2.putText(img, last_key, (10,50), cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)
+            cv2.putText(img, keypress, (10,50), cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)
             cv2.imshow("Hand Data Cap", img)
             k = cv2.waitKey(frame_time)
             if k == 27: run_cap = False
             if timer > 0:
                 timer -= 1
             else:
-                last_key = ''
+                keypress = ''
 
         # Shutdown.
         cap.release()

@@ -18,6 +18,14 @@ class KeylessConfig():
         return self.config_data['capture_time']
     
     @property
+    def num_windows(self):
+        return self.config_data['num_windows']
+    
+    @property
+    def agreements(self):
+        return self.config_data['agreements']
+    
+    @property
     def num_frames(self):
         return int(round((self.capture_time / 1000) * self.fps, 0))
     

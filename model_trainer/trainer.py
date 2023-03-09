@@ -15,12 +15,14 @@ def train_all_models():
     keyless_config = KeylessConfig()
 
     # Get the train and test data.
+    print("Loading datasets...")
     x_train, y_train = load_data_file(os.path.join(F_CLEAN_DATA, 'train.json'))
     x_val, y_val = load_data_file(os.path.join(F_CLEAN_DATA, 'validate.json'))
     x_test, y_test = load_data_file(os.path.join(F_CLEAN_DATA, 'test.json'))
 
     # Train the models.
     if keyless_config.train:
+        print("Training models...")
         neutral = train_model(x_train, y_train, x_val, y_val, -1, 'neutral')
         thumb = train_model(x_train, y_train, x_val, y_val, 0, 'thumb')
         index = train_model(x_train, y_train, x_val, y_val, 1, 'index')
@@ -28,6 +30,7 @@ def train_all_models():
         ring = train_model(x_train, y_train, x_val, y_val, 3, 'ring')
         pinky = train_model(x_train, y_train, x_val, y_val, 4, 'pinky')
     else:
+        print("Loading pretraned models...")
         neutral = (pickle.load(open(os.path.join(F_MODELS, 'neutral.pkl'), 'rb')), '', 'neutral')
         thumb = (pickle.load(open(os.path.join(F_MODELS, 'thumb.pkl'), 'rb')), '', 'thumb')
         index = (pickle.load(open(os.path.join(F_MODELS, 'index.pkl'), 'rb')), '', 'index')
@@ -60,6 +63,7 @@ def load_data_file(fname):
     return x, y
 
 def train_model(x_train, y_train, x_val, y_val, finger, name):
+    print(f"Training {name}")
     y_train = [finger in _y for _y in y_train]
     y_val = [finger in _y for _y in y_val]
 
