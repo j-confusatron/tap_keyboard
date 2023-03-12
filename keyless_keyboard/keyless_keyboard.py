@@ -89,7 +89,7 @@ class KeylessKeyboard(object):
             # For demo purposes, draw the captured image and keypress information.
             cv2.rectangle(img, (0,0), (60,60), (15,15,15), -1)
             cv2.putText(img, keypress, (10,50), cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)
-            cv2.imshow("Hand Data Cap", img)
+            cv2.imshow("Keyless Keyboard Demo", img)
 
             # Sleep for frame time milliseconds, capture keypresses, and test keypresses for 'esc' to quit.
             frame_counter += 1
