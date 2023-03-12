@@ -76,11 +76,11 @@ class KeylessKeyboard(object):
                             else:
                                 last_key = (key, 1)
                             
-                            # Register the key press if he agreement threshold is met.
+                            # Register the key press if the agreement threshold is met.
                             if last_key[1] >= self.config.agreements:
                                 keypress = key
                                 timer = num_frames // 2
-                                print(key)
+                                #print(key)
                                 frames = [[] for _ in range(self.config.num_windows)]
                                 agreement_history = [(None, 0) for _ in range(self.config.num_windows)]
                                 frame_counter = 0
@@ -114,9 +114,9 @@ class KeylessKeyboard(object):
         inference = self.__model_inference(x)
         score = sum([inference[i] * self.config.scores[i] for i in range(1, len(self.models))])
         score = score if score else inference[0] * self.config.scores[0]
-        if score:
+        '''if score:
             print(str(score)+" ", end='')
-            print(inference)
+            print(inference)'''
         return score
     
     def __get_data(self, hands):

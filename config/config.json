@@ -27,7 +27,7 @@
         0.5005357184287706,
         0.41388746687210753
     ],
-    "train": false,
+    "train": true,
     "evaluate": true,
     "scores": [
         -1,
