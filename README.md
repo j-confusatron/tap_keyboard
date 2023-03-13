@@ -48,19 +48,13 @@ The output of the MediaPipe timestep capture is thus:
 
 ```[{(x,y,x) for 21 hand points} for FPS * (WINDOW_LENGTH / 1000) frame captures]```
 
-During model training, the mean and standard deviation are learned independently for x, y, and z. In the production pipelines, these values are used to normalize the coordinate dimensions. The arrays are then flattened to a one-dimensional array.
-
-Six logistic regression models are trained independently on this flattened array to learn the following motions: a flat, neutral hand; a thumb tapping; an index finger tapping; a middle finger tapping; a ring finger tapping; a pinky finger tapping. The training dataset used contains examples of all possible finger tapping combinations, so that the models become robust to different tapping motions. 
-
-If a model predicts a positive result, that is interpreted as that model’s finger tapping. Each model is assigned a point value. When a model predicts a tap, that model’s value is added to a sum. The sum then correlates to a keystroke. For simplicity, the experimental system uses a basic approach to assigning values, where each letter’s position in the alphabet is it’s required point value. A is 1, B is 2, and so on. Thumbs are assigned 1 point, index 2, middle 4, ring 8, and pinky 16. A neutral hand is assigned 0 points, which is interpreted as a space. If no model makes a positive prediction, then no keystroke is detected, and the system will simply advance to the next frame. The points assigned to each finger and the points required for all letters are configurable.
+Six logistic regression models are trained independently on this flattened, normalized array to learn the following motions: a flat, neutral hand; a thumb tapping; an index finger tapping; a middle finger tapping; a ring finger tapping; a pinky finger tapping. If a model predicts a positive result, that is interpreted as that model’s finger tapping. Each model is assigned a point value. The sum of these points correlates to a keystroke. For simplicity, the experimental system uses a basic approach to assigning values, where each letter’s position in the alphabet is it’s required point value. Thumbs are assigned 1 point, index 2, middle 4, ring 8, and pinky 16. A neutral hand is assigned 0 points, which is interpreted as a space. If no model makes a positive prediction, then no keystroke is detected, and the system will simply advance to the next frame. The points assigned to each finger and the points required for all letters are configurable.
 
 ### System Performance <a id="performance"></a>
 
 To evaluate the performance of the machine learning system in identifying finger taps, each of the six logistic regression models are evaluated independently. The MediaPipe hand detection system is not evaluated, as it is beyond the control of this project.
 
 A dataset for this project was created by over the course of roughly one hour, using a custom-built tool for data capture. The dataset was then split into model training (80%), hyperparameter validation (10%), and generalized test performance (10%). The overall dataset consisted of 936 samples. Each sample took 0.5 seconds to capture.
-
-Validation system tuning involved using ROC and precision-recall curves to identify thresholds to use for each model independently. Each model is configured for a healthy balance of precision and recall.
 
 | Model   | ROC AUC | Acc     | Precision | Recall  | F1      |
 | ------- | ------- | ------- | --------- | ------- | ------- |
@@ -77,9 +71,7 @@ An interesting and unintended consequence of this process was the small amount o
 
 As with many machine learning systems, the potential for bias is a possibility with Keyless Keyboard. MediaPipe’s hand recognition models may include bias, such as a bias towards Caucasian hands. However, control over these models is outside of the scope for this project.
 
-The dataset used to train the logistic regression models that recognize hand gestures is within the scope of this project. All training data is created by the author of this project. This data, when passed through MediaPipe, is distilled down to a series of x,y,x coordinates. This eliminates the potential for racial and gender bias. However, the potential for bias towards the author’s hand gestures is highly likely. The current models are biased towards non-disabled individuals.
-
-Due to time constraints of this project, the dataset is purposely limited to a single view angle. This limitation is unrealistic for release in a production-ready system. For experimental demonstration, this intended bias will suffice.
+The dataset used to train the logistic regression models that recognize hand gestures is within the scope of this project. All training data is created by the author of this project. This data, when passed through MediaPipe, is distilled down to a series of x,y,x coordinates. This eliminates the potential for racial and gender bias. However, the potential for bias towards the author’s hand gestures is highly likely. The current models are biased towards non-disabled individuals. Due to time constraints of this project, the dataset is purposely limited to a single view angle. This limitation is unrealistic for release in a production-ready system. For experimental demonstration, this intended bias will suffice.
 
 ## Disability Justice Perspective <a id="justice"></a>
 
