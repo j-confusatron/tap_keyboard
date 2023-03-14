@@ -1,7 +1,7 @@
 {
     "fps": 30,
     "capture_time": 500,
-    "num_windows": 1,
+    "num_windows": 2,
     "agreements": 1,
     "num_hand_points": 21,
     "data_ratio": [

@@ -56,7 +56,7 @@ class KeylessKeyboard(object):
             else:
                 for i, f in enumerate(frames):
                     # Append the frame to the current frame collection. If we have enough frames, go to inference.
-                    if i % frame_counter_mod[i] == 0:
+                    if frame_counter % frame_counter_mod[i] == 0:
                         f.append(data_points)
                         if len(f) > num_frames:
                             f.pop(0)
